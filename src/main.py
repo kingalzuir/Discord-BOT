@@ -38,6 +38,21 @@ async def name(ctx):
 async def d6(ctx):
     await ctx.send(f'{random.randint(1,6)}')
 
+@bot.command()
+@commands.has_permissions(ban_members = True)
+async def ban(ctx, member : discord.Member):
+    await member.ban()
+
+@bot.command(pass_context = True)
+async def admin(ctx, user : discord.Member):
+    role = discord.utils.get(user.guild.roles, name="Admin")
+    if role is None :
+        await ctx.guild.create_role(name='Admin')
+        perm = discord.Permissions()
+        perm.update()
+        await role.edit(permission = perm)
+    await user.add_roles(user, "Admin")
+
 
 
 token = ""
